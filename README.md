@@ -7,10 +7,10 @@ A Jenkinsfile pipeline framework, like gradle.
  - write pipeline like gradle
 
 ## Plugins
- - [delivery-flow-plugin](https://github.com/yubing744/delivery-flow-plugin)
+ - [flow-plugin](https://github.com/yubing744/delivery/blob/master/src/org/yubing/delivery/plugin/flow/FlowPlugin.groovy)
 
 ## Examples
- - [flow-example](https://github.com/yubing744/delivery/resource/examples/flow)
+ - [flow-example](https://github.com/yubing744/delivery/blob/master/resources/examples/flow/Jenkinsfile)
 
 ## Changelog
 
