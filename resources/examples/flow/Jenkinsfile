@@ -1,0 +1,10 @@
+@Library('delivery')_
+
+delivery {
+    apply plugin: "flow"
+
+    config {
+        name = "flow-example"
+        version = "1.0.0-${env.COMMIT_ID}"
+    }
+}
