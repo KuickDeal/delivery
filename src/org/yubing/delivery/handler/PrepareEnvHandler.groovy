@@ -100,7 +100,7 @@ class PrepareEnvHandler implements Serializable {
 		def commitId = null;
 		
 		def body = {
-            node("aliyun345-test") {
+      node() {
 				checkout scm
 
 				def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -115,9 +115,9 @@ class PrepareEnvHandler implements Serializable {
 			}
 		}
 		
-        body.resolveStrategy = Closure.DELEGATE_FIRST;
-        body.delegate = this.project.script;
-        body();
+		body.resolveStrategy = Closure.DELEGATE_FIRST;
+		body.delegate = this.project.script;
+		body();
 		
 		return commitId;
 	}
