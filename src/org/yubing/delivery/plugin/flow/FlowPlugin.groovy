@@ -123,21 +123,6 @@ class FlowPlugin implements Plugin<Project> {
 		])
 	}
 
-	def deployQAFlow(project) {
-		project.pipeline("DEPLOY_QA", [
-			// Build
-			"PreDeploy", 
-			"Skip",
-			"UnitTest",
-			"SonarQube",
-			"BuildImage",
-			"UploadImage",
-
-			//DeployToQA
-			"DeployQA"
-		])
-	}
-
 	def deployPreProdFlow(project) {
 		project.pipeline("DEPLOY_PreProd", [
 			// Build
