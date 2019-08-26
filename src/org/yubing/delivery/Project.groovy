@@ -3,13 +3,10 @@ package org.yubing.delivery;
 import java.io.Serializable;
 import java.io.File;
 import java.util.ArrayList;
-
 import java.lang.reflect.Constructor;
-
 import org.jenkinsci.plugins.workflow.cps.CpsScript;
-
+import org.yubing.delivery.plugin.Plugin
 import org.yubing.delivery.plugin.PluginManager;
-
 import org.yubing.delivery.handler.FilterChain;
 import org.yubing.delivery.handler.ScriptHandler;
 import org.yubing.delivery.handler.PrepareEnvHandler;
@@ -192,6 +189,10 @@ class Project extends FilterChain {
         this.stage(name, body);
     }
 
+	def apply(Plugin plugin) {
+		plugin.apply(this);
+	}
+	
     def apply(String pluginId) {
         this.log "project apply plugin:" + pluginId
 

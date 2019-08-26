@@ -1,0 +1,15 @@
+/bin/
+build
+.classpath
+.project
+.settings/
+/bin/
+.idea
+.gradle
+*.iml
+.DS_Store
+
+/out/
+*.iws
+*.ipr
+/opt/
