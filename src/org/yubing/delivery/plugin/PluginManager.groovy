@@ -35,7 +35,7 @@ class PluginManager implements Serializable {
 		}
 
 		// import plugin
-        def pluginFactory = this.script[pluginId + "_plugin")
+        def pluginFactory = this.script."${pluginId}_plugin"
         if (pluginFactory != null) {
             plugin = pluginFactory.instance();
             return plugin.apply(this);
