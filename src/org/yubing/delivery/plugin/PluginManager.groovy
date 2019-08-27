@@ -30,15 +30,14 @@ class PluginManager implements Serializable {
 	def findPlugin(pluginId) {
 		// inner plugin
 		def plugin = plugins[pluginId];
-		if (plugin!=null) {
+		if (plugin != null) {
 			return plugin;
 		}
 
-		// import plugin
+		// load outside plugin
         def pluginFactory = this.script."${pluginId}_plugin"
         if (pluginFactory != null) {
-            plugin = pluginFactory.instance();
-            return plugin.apply(this);
+            return pluginFactory.instance();
         }
 
         return null;
