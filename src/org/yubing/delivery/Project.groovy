@@ -34,7 +34,7 @@ class Project extends FilterChain {
 		this.script = script;
         this.env = script.env;
         
-		this.pluginManager = new PluginManager();
+		this.pluginManager = new PluginManager(this);
 
         this.scriptHandler = new ScriptHandler(this);
         this.prepareEnvHandler = new PrepareEnvHandler(this);
@@ -196,13 +196,13 @@ class Project extends FilterChain {
     def apply(String pluginId) {
         this.log "project apply plugin:" + pluginId
 
+        // inner plugin
         def plugin = this.pluginManager.findPlugin(pluginId);
-    
         if (plugin != null) {
-            plugin.apply(this);
-        } else {
-            throw new DeliveryException("plugin_not_found", "not found plugin with id:" + pluginId);
-        }
+            return plugin.apply(this);
+        } 
+
+        throw new DeliveryException("plugin_not_found", "not found plugin with id:" + pluginId);
     }
 
     def apply(Map<String, ?> options) {

@@ -2,6 +2,7 @@ package org.yubing.delivery.plugin;
 
 import java.io.Serializable;
 
+import org.yubing.delivery.Project;
 import org.yubing.delivery.plugin.flow.FlowPlugin;
 
 /**
@@ -10,7 +11,14 @@ import org.yubing.delivery.plugin.flow.FlowPlugin;
 class PluginManager implements Serializable {
 
 	def plugins = [:];
-	
+	def project;
+	def script;
+
+	PluginManager(Project project) {
+		this.project = project;
+		this.script = project.script;
+	}
+
 	def init() {
 		register("flow", new FlowPlugin());
 	}
@@ -20,6 +28,19 @@ class PluginManager implements Serializable {
 	}
 
 	def findPlugin(pluginId) {
-		return plugins[pluginId];
+		// inner plugin
+		def plugin = plugins[pluginId];
+		if (plugin!=null) {
+			return plugin;
+		}
+
+		// import plugin
+        def pluginFactory = this.script[pluginId + "_plugin")
+        if (pluginFactory != null) {
+            plugin = pluginFactory.instance();
+            return plugin.apply(this);
+        }
+
+        return null;
 	}
 }
