@@ -1,19 +1,19 @@
 package org.yubing.delivery.handler;
 
 import java.io.Serializable;
-
 import org.yubing.delivery.Project;
+
 
 class PrepareEnvHandler implements Serializable {
 
-	def project;
+	def project
 
 	PrepareEnvHandler(Project project) {
-		this.project = project;
+		this.project = project
 	}
 
 	def echo(msg) {
-		this.project.log msg;
+		this.project.log msg
 	}
 
 	// The call(body) method in any file in workflowLibs.git/vars is exposed as a
@@ -85,22 +85,22 @@ class PrepareEnvHandler implements Serializable {
 		echo "----------------------------------------------"
 	}
 
-	@NonCPS
+	// @NonCPS
 	def getBuildUser() {
-		def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause);
-		
+		def cause = currentBuild.rawBuild.getCause(Cause.UserIdCause)
+
 		if (cause != null) {
 			return cause.getUserId()
-		} 
+		}
 
 		return "gitlab"
 	}
 
 	def getCommitId() {
-		def commitId = null;
+		def commitId = null
 		
 		def body = {
-      node() {
+            node("master") {
 				checkout scm
 
 				def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -108,67 +108,67 @@ class PrepareEnvHandler implements Serializable {
 
 				// 更新版本
 				if (env.IMAGE_TAG != null && env.IMAGE_TAG != "") {
-					shortCommit = env.IMAGE_TAG[-6..-1];
+					shortCommit = env.IMAGE_TAG[-6..-1]
 				}
 
-				commitId = shortCommit;
+				commitId = shortCommit
 			}
 		}
 		
-		body.resolveStrategy = Closure.DELEGATE_FIRST;
-		body.delegate = this.project.script;
-		body();
+        body.resolveStrategy = Closure.DELEGATE_FIRST
+        body.delegate = this.project.script
+        body()
 		
-		return commitId;
+		return commitId
 	}
 
 	def handle() {
-		this.printGitLabEnv();
+		this.printGitLabEnv()
 
 		// BRANCH_NAME 
 		if (env.gitlabSourceBranch != null) {
-			env.BRANCH_NAME = env.gitlabSourceBranch;
-			env.CHANGE_TARGET = env.gitlabSourceBranch;
+			env.BRANCH_NAME = env.gitlabSourceBranch
+			env.CHANGE_TARGET = env.gitlabSourceBranch
 		}
 
 		// CHANGE_ID
 		if (env.gitlabMergeRequestId != null) {
-			env.CHANGE_ID = env.gitlabMergeRequestId;
+			env.CHANGE_ID = env.gitlabMergeRequestId
 		}
 
 		// CHANGE_TYPE
 		if (env.gitlabActionType != null) {
-			env.CHANGE_TYPE = env.gitlabActionType;
+			env.CHANGE_TYPE = env.gitlabActionType
 		}
 
 		// CHANGE_URL
 		if (env.gitlabSourceRepoHttpUrl != null) {
-			env.CHANGE_URL = env.gitlabSourceRepoHttpUrl;
+			env.CHANGE_URL = env.gitlabSourceRepoHttpUrl
 		}
 
 		// CHANGE_TITLE
 		if (env.gitlabMergeRequestTitle != null) {
-			env.CHANGE_TITLE = env.gitlabMergeRequestTitle;
+			env.CHANGE_TITLE = env.gitlabMergeRequestTitle
 		}
 
 		// CHANGE_AUTHOR
 		if (env.gitlabUserName != null) {
-			env.CHANGE_AUTHOR = env.gitlabUserName;
+			env.CHANGE_AUTHOR = env.gitlabUserName
 		}
 
 		// CHANGE_AUTHOR_DISPLAY_NAME
 		if (env.gitlabUserName != null) {
-			env.CHANGE_AUTHOR_DISPLAY_NAME = env.gitlabUserName;
+			env.CHANGE_AUTHOR_DISPLAY_NAME = env.gitlabUserName
 		}
 
 		// CHANGE_AUTHOR_EMAIL
 		if (env.gitlabUserEmail != null) {
-			env.CHANGE_AUTHOR_EMAIL = env.gitlabUserEmail;
+			env.CHANGE_AUTHOR_EMAIL = env.gitlabUserEmail
 		}
 
 		// CHANGE_TARGET
 		if (env.gitlabTargetBranch != null) {
-			env.CHANGE_TARGET = env.gitlabTargetBranch;
+			env.CHANGE_TARGET = env.gitlabTargetBranch
 
             // 修复branch name错误，删除origin前缀
             if (env.CHANGE_TARGET.contains('origin/')) {
@@ -177,16 +177,16 @@ class PrepareEnvHandler implements Serializable {
 		}
 		
 		// USER ID
-		env.USER_ID = this.getBuildUser();
+		env.USER_ID = this.getBuildUser()
 
 		// Commit ID
-		env.COMMIT_ID = this.getCommitId();
+		env.COMMIT_ID = this.getCommitId()
 
-		this.printPipelineEnv();
+		this.printPipelineEnv()
 	}
 
 	// 处理未定义的属性调用
     Object propertyMissing(String name) {
-        return this.project.script[name];
+        return this.project.script[name]
     }
 }
