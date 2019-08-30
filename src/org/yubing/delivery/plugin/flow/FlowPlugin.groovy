@@ -36,8 +36,8 @@ class FlowPlugin implements Plugin<Project> {
 			"ConfirmAcceptationTestOk",
 
 			//DeployToProd
-			"AccessControl",
 			"ConfirmDeployProd",
+			"AccessControl",
 			"DeployProd",
 			"ConfirmSmokeTestOk",
 			
@@ -75,8 +75,8 @@ class FlowPlugin implements Plugin<Project> {
 			"ConfirmAcceptationTestOk",
 
 			//DeployToProd
-			"AccessControl",
 			"ConfirmDeployProd",
+			"AccessControl",
 			"DeployProd",
 			"ConfirmSmokeTestOk",
 			
@@ -176,8 +176,8 @@ class FlowPlugin implements Plugin<Project> {
 			"Skip",
 
 			//DeployToProd
-			"AccessControl",
 			"ConfirmDeployProd",
+			"AccessControl",
 			"DeployProd",
 			"ConfirmSmokeTestOk",
 			
