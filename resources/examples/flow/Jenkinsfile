@@ -1,4 +1,4 @@
-@Library('delivery')_
+@Library('master')_
 
 delivery {
     apply plugin: "flow"
